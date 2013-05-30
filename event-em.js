@@ -1,6 +1,8 @@
-;(function(namespace, window, undefined){
+var EventEm;
 
-     EventEm = function(){
+;(function(window, undefined){
+
+     EventEm = EventEm || function(){
           return {
                events : {},
                on : this.on,
@@ -66,6 +68,4 @@
           return output;
      };
 
-     namespace = EventEm;
-
-})(this['EventEm'] = this['EventEm'] || {}, window, undefined);
+})(window, undefined);
