@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+     <head>
+          <meta charset="UTF-8">
+          <title>Event Emitter</title>
+          <style type="text/css">
+               #log{
+                    border: 1px solid #bbb;
+                    min-height: 100px;
+                    min-width: 100%;
+               }
+          </style>
+     </head>
+     <body>
+     <button id="news-alert" disabled>Publish Random News Alert</button>
+
+     <button id="subscribe">Subscribe to News Alert event</button>
+     <button id="unsubscribe">Unsubscribe from News Alert event</button>
+
+     <button id="show-data">Show data context example</button>
+     
+     <textarea id="log"></textarea>
+     
+     <script src="event-em.js"></script>
+     <script>
+          (function(){
+               var eventEm = new EventEm();
+               
+               var myObj = {
+                    property : 'This is a property of the passed context',
+                    someMethod : function(data){
+                         log( this.property + '...and this is the ' + data );
+                    }
+               };
+
+               eventEm.on('show-data', myObj.someMethod, myObj);
+
+               find('#unsubscribe').addEventListener('click', function(){
+                    find('#news-alert').setAttribute('disabled');
+                    eventEm.off('news-alert', showNewsAlert);
+               });
+
+               find('#subscribe').addEventListener('click', function(){
+                    find('#news-alert').removeAttribute('disabled');
+                    eventEm.on('news-alert', showNewsAlert);
+               });
+
+               find('#news-alert').addEventListener('click', function(){
+                    eventEm.trigger('news-alert', getRandomNews);
+               });
+
+               find('#show-data').addEventListener('click', function(){
+                    eventEm.trigger('show-data', 'Trigger Data');
+               });
+               
+               function getRandomNews(){
+                    var  news = [
+                         'ECMAScript 6 to support native classes',
+                         'Pure CSS accordion',
+                         'jQuery 2.0 released',
+                         'Grunt 0.4.1 released',
+                         'Array!, Array!'
+                    ];
+                    return news[ Math.ceil( Math.random() * news.length) -1 ];
+               }
+               
+               function showNewsAlert(callback){
+                    log( callback() );
+               }
+
+               function find( id ){
+                    return document.querySelector( id );
+               }
+
+               function log(){
+                    var elem = document.getElementById('log'),
+                         reverse = true,
+                         log = Array.prototype.slice.call( arguments, 0 ).join('{join}').replace(/{join}/g, '\n');
+                    elem.innerHTML = (reverse)? log + '\n' +  elem.innerHTML : elem.innerHTML + '\n' + log;
+               }
+          })()
+     </script>
+</body>
+</html>
