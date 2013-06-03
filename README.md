@@ -13,19 +13,19 @@ var eventEm = new EventEm();
 ### Subscribe to an event 
 
 ``` 
-eventEm.on('my-event', doSomething);
+eventEm.on('my-event', fn);
 ```
 
 ### Unsubscribe from an event
 
 ``` 
-eventEm.off('my-event', doSomething);
+eventEm.off('my-event', fn);
 ```
 
 ### Publish an event
 
 ``` 
-eventEm.trigger('my-event', doSomething [, data ]);
+eventEm.trigger('my-event' [, data ]);
 ```
 
 ### Methods are chainable
