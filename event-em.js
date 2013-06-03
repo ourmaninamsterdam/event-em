@@ -1,14 +1,22 @@
 var EventEm;
 
 ;(function(window, undefined){
+     "use strict";
 
      EventEm = EventEm || function(){
+          
+          this.lastEvent = null;
+          this.eventCallStack = [];
+
           return {
+               lastEvent : this.lastEvent,
+               eventCallStack : this.eventCallStack,
                events : {},
                on : this.on,
                off : this.off,
                trigger : this.trigger,
                getEventsList : this.getEventsList,
+               isActualEvent : this.isActualEvent,
                processEvents : this.processEvents
           };
      };
@@ -31,12 +39,16 @@ var EventEm;
      };
      EventEm.prototype.trigger = function(event){
           var data = Array.prototype.slice.call(arguments, 1);
-          this.processEvents('trigger', event, null, data);
-
+          if( this.isActualEvent( event ) ){
+               this.processEvents('trigger', event, null, data);
+          }
+          else{
+               console.log('Event "'+ event +'" was triggered but doesn\'t have any listeners');
+          }
           return this;
      };
      EventEm.prototype.processEvents = function(action, event, fn, data){
-          var  subscription,
+          var subscription,
                i = 0,
                events = this.events[event],
                l = events.length;
@@ -45,19 +57,31 @@ var EventEm;
                subscription = events[i];
 
                if(action === 'remove'){
-                    if( subscription.callback === fn ){
-                         events.splice(i, 1);
-                         if(!events.length){
-                              delete this.events[event];
+                         if( subscription.callback === fn ){
+                              events.splice(i, 1);
+                              if(!events.length){
+                                   delete this.events[event];
+                              }
+                              break;
                          }
-                         break;
-                    }
                }
                else{
-                    subscription.callback.apply( subscription.context, data );
+                         subscription.callback.apply( subscription.context, data );
                }
           }
+          
+          this.lastEvent = event;
+
           return this;
+     };
+     EventEm.prototype.isActualEvent = function( event ){
+          return typeof this.events[event] !== 'undefined';
+     };
+     EventEm.prototype.getlastEvent = function(){
+          return this.lastEvent;
+     };
+     EventEm.prototype.getEventCallStack = function( event ){
+          return this.eventCallStack;
      };
      EventEm.prototype.getEventsList = function(){
           var event, output = [];
