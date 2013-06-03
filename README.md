@@ -13,7 +13,7 @@ var eventEm = new EventEm();
 ### Subscribe to an event 
 
 ``` 
-eventEm.on('my-event', doSomething [, data ]);
+eventEm.on('my-event', doSomething);
 ```
 
 ### Unsubscribe from an event
