@@ -1,6 +1,11 @@
 # event-em
 
-A simple mediator library to assist in creating loosely-couple apps. Influenced by work by [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
+A simple mediator library to assist in creating loosely-coupled apps. Influenced by work by [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
+
+## Features
+
+* Creates a central listening point for app states, helping to assist in the creation of loosely-coupled apps.
+* Should work in all browsers.
 
 ## Usage
 
@@ -72,4 +77,11 @@ function displayError( error ){
 }
 eventEm.on('ajax-error', displayError );
 ```
+
+## Future Developments
+
+* Add timestamp for each event.
+* To include a unique ID for events to allow easy un/subscribe using anonymous functions.
+* Add getEventStack method to show all events which should assist in debugging.
+
 
