@@ -1,7 +1,7 @@
 # event-em
 
-A simple mediator library to assist in creating loosely-coupled apps. Influenced by work from [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
 
+A simple mediator library to assist in creating loosely-coupled apps. Influenced by work from [Romauld Quantain](http://www.soundstep.com), [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
 ## Features
 
 * Creates a central listening point for app states.
@@ -18,7 +18,7 @@ MyApp.getPageContent = function( url ){
 		url: url,
 		method: 'get',
 		success: function ( data ) {
-			APP.eventEm.trigger( 'ajax-loaded', url, data );
+			APP.eventEm.trigger( 'ajax-loaded', data, url );
 		},
 		error: function( error ){
 			APP.eventEm.trigger( 'ajax-error', error);
@@ -28,7 +28,7 @@ MyApp.getPageContent = function( url ){
 
 ```
 
-In this simple example, the getPageContent function makes an AJAX request and returns either an `ajax-loaded` or `ajax-error` event. When EventEm receives the event, it looks for listeners, executes the callback, passing across any data:-
+In this simple example, the getPageContent function makes an AJAX request and upon return, triggers either an `ajax-loaded` or `ajax-error` event. EventEm then passes this data to any event listeners:-
 
 ``` javascript
 
