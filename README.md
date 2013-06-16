@@ -40,7 +40,6 @@ eventEm
 
 ## Example usage - AJAX
 
-Below the getPageContent function is executed, making an AJAX request. Rather than including a callback to a specific function, thus coupling two functions together, an event is triggered informing any listeners for that event that it has some information. In this example, it is triggering the `ajax-loaded` and `ajax-error` events. 
 
 ``` javascript
 
@@ -59,5 +58,18 @@ MyApp.getPageContent = function( url ){
 
 ```
 
+In this simple example, the getPageContent function makes an AJAX request and returns either an `ajax-loaded` or `ajax-error` event. When EventEm receives the event, it looks for listeners, executes the callback, passing across any data:-
 
+``` javascript
+
+function displayContent( html ){
+	document.querySelector('#content-main').innerHTML = html;
+}
+eventEm.on('ajax-loaded' , displayContent );
+
+function displayError( error ){
+	alert( error );
+}
+eventEm.on('ajax-error', displayError );
+```
 
