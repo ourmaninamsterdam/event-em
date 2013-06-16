@@ -6,8 +6,8 @@ A mediator library to assist in creating loosely-coupled apps. Influenced by wor
 ## Benefits
 
 * Creates a central listening point for app states.
-* Avoids callback spaghetti and helps you create loosely-coupled apps by listening for events, rather than passing callbacks.
-* Assists in creating ignorant, modular functions.
+* Avoids callback spaghetti and helps you create loosely-coupled apps by listening for events, rather than deeply nesting callbacks.
+* Increases app modularity.
 
 ## Example usage - AJAX
 
