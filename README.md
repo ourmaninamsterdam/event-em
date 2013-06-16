@@ -1,11 +1,12 @@
 # event-em
 
 
-A simple mediator library to assist in creating loosely-coupled apps. Influenced by work from [Romauld Quantain](http://www.soundstep.com), [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
-## Features
+A mediator library to assist in creating loosely-coupled apps. Influenced by work from [Romauld Quantain](http://www.soundstep.com), [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
+
+## Benefits
 
 * Creates a central listening point for app states.
-* Avoids callback spaghetti and creates loosely-coupled apps by listening for events, rather than passing callbacks.
+* Avoids callback spaghetti and helps you create loosely-coupled apps by listening for events, rather than passing callbacks.
 * Assists in creating ignorant, modular functions.
 
 ## Example usage - AJAX
@@ -55,7 +56,9 @@ var eventEm = new EventEm();
 ### Subscribe to an event 
 
 ``` 
-eventEm.on('my-event', fn);
+eventEm.on('my-event', fn [, context] );
+
+eventEm.on('app-ready', showPage , this );
 ```
 
 ### Unsubscribe from an event
@@ -75,7 +78,7 @@ Supports multiple parameters.
 
 ``` 
 eventEm
-	.on('my-event', fn)	
+	.on('my-event', fn [, context] )	
 	.trigger('my-event' [, data ])
 	.off('my-event', fn)
 ```
