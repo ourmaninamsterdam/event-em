@@ -5,7 +5,7 @@ A simple mediator library to assist in creating loosely-coupled apps. Influenced
 ## Features
 
 * Creates a central listening point for app states.
-* Avoid callback spaghetti and create loosely-coupled apps by listening for events, rather than passing callbacks.
+* Avoids callback spaghetti and creates loosely-coupled apps by listening for events, rather than passing callbacks.
 * Assists in creating ignorant, modular functions.
 
 ## Example usage - AJAX
@@ -90,7 +90,7 @@ eventEm
 
 ## Future Developments
 
-* To include a unique ID for events to allow easy un/subscribe when using anonymous functions.
+* To include a unique event ID to allow easy un/subscribe when using anonymous functions.
 * Add getLastEvent method to show the last event triggered.
 * Add getCallStack method to show all events listeners.
 * Add timestamp for each event.
