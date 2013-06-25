@@ -1,33 +1,33 @@
-var EventEm;
-
-;(function(window, undefined){
+;(function(global, undefined){
 	"use strict";
 
-	EventEm = EventEm || function(){
-		
+	function EventEm(){
+
 		this.lastEvent = null;
 		this.eventCallStack = [];
 
 		return {
-			lastEvent : this.lastEvent,
-			eventCallStack : this.eventCallStack,
 			events : {},
 			on : this.on,
 			off : this.off,
 			trigger : this.trigger,
-			getEventsList : this.getEventsList,
 			isActualEvent : this.isActualEvent,
-			processEvents : this.processEvents
+			processEvents : this.processEvents,
+			getLastEvent : this.getLastEvent,
+			getEventsList : this.getEventsList,
+			getEventCallStack : this.getEventCallStack,
+			log : this.log
 		};
-	};
+	}
+
 	EventEm.prototype.on = function(event, fn, context){
 		fn = typeof fn === 'function' ? fn : context[fn];
 
-		if(typeof this.events[event] === 'undefined'){
+		if( typeof this.events[event] === 'undefined' ){
 			this.events[event] = [];
 		}
 		this.events[event].push({
-			context : context || this,
+			context : context,
 			callback : fn
 		});
 		return this;
@@ -43,7 +43,7 @@ var EventEm;
 			this.processEvents('trigger', event, null, data);
 		}
 		else{
-			console.log('Event "'+ event +'" was triggered but doesn\'t have any listeners');
+			this.log('Event "'+ event +'" was triggered but doesn\'t have any listeners');
 		}
 		return this;
 	};
@@ -56,11 +56,11 @@ var EventEm;
 		for(; i < l; i++ ){
 			subscription = events[i];
 
-			if(action === 'remove'){
+			if( action === 'remove' ){
 				if( subscription.callback === fn ){
 					events.splice(i, 1);
-					if(!events.length){
-						delete this.events[event];
+					if( !events.length ){
+						delete this.events[ event ];
 					}
 					break;
 				}
@@ -69,7 +69,6 @@ var EventEm;
 				subscription.callback.apply( subscription.context, data );
 			}
 		}
-		
 		this.lastEvent = event;
 
 		return this;
@@ -77,7 +76,7 @@ var EventEm;
 	EventEm.prototype.isActualEvent = function( event ){
 		return typeof this.events[event] !== 'undefined';
 	};
-	EventEm.prototype.getlastEvent = function(){
+	EventEm.prototype.getLastEvent = function(){
 		return this.lastEvent;
 	};
 	EventEm.prototype.getEventCallStack = function( event ){
@@ -91,5 +90,13 @@ var EventEm;
 		}
 		return output;
 	};
+	EventEm.prototype.log = function( msg ){
+		try{
+			console.log( msg );
+		}
+		catch( error ){}
+	};
 
-})(window, undefined);
+	global.EventEm = EventEm;
+
+})(this, undefined);
