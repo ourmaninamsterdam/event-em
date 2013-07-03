@@ -88,8 +88,8 @@ eventEm
 * Tested on 
 	* Windows: IE7-10, Chrome 27 and Firefox 17.
 	* Mac: Safari 6.0.3, Chrome 27, Chrome Canary and Firefox 17.
-	* iOS: Mobile Safari and Chrome (Latest).
-	* Android: Android Browser 4 and Chrome Android (Latest).
+	* iOS: Mobile Safari and Chrome 27.
+	* Android: Android Browser 4 and Chrome Android 27.
 
 ## Future Developments
 
