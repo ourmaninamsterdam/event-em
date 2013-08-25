@@ -12,12 +12,16 @@
 		</style>
 	</head>
 	<body>
-	<button id="news-alert" disabled>Publish Random News Alert</button>
+	<button id="news-alert">Publish Random News Alert</button>
 
 	<button id="subscribe">Subscribe to News Alert event</button>
 	<button id="unsubscribe">Unsubscribe from News Alert event</button>
 
 	<button id="show-data">Show data context example</button>
+
+	<hr>
+
+	<button id="subscribe-once">Subscribe Once to News Alert event</button>
 	
 	<textarea id="log"></textarea>
 	
@@ -33,22 +37,24 @@
 				}
 			};
 
-			eventEm.on('show-data', myObj.someMethod, myObj);
-
-			find('#unsubscribe').addEventListener('click', function(){
-				find('#news-alert').setAttribute('disabled');
-				eventEm.off('news-alert', 'ppp');
-			});
-
+			// Subscribe from example
 			find('#subscribe').addEventListener('click', function(){
-				find('#news-alert').removeAttribute('disabled');
 				eventEm.on('news-alert', showNewsAlert);
 			});
+			eventEm.on('show-data', myObj.someMethod, myObj);
+			eventEm.once('show-data', myObj.someMethod, myObj );
 
+			// Unsubscribe from example
+			find('#unsubscribe').addEventListener('click', function(){
+				eventEm.off('news-alert', showNewsAlert);
+			});
+
+			// Trigger News Alert example
 			find('#news-alert').addEventListener('click', function(){
 				eventEm.trigger('news-alert', getRandomNews);
 			});
 
+			// Trigger Show Data example
 			find('#show-data').addEventListener('click', function(){
 				eventEm.trigger('show-data', 'Trigger Data');
 			});
@@ -63,7 +69,6 @@
 				];
 				return news[ Math.ceil( Math.random() * news.length) -1 ];
 			}
-			console.log( eventEm.getLastEvent() );
 			
 			function showNewsAlert(callback){
 				log( callback() );
