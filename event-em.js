@@ -1,25 +1,20 @@
-;(function(global, undefined){
+;(function( root, undefined ){
 	"use strict";
 
 	function EventEm(){
-		this.lastEvent = null;
-		this.eventCallStack = [];
 		this.events = {};
+		this.lastEvent = null;
 	}
 
 	// Public API
 	EventEm.prototype.on = function( event, fn, context, once ){
-		fn = typeof fn === 'function' ? fn : context[fn];
-
 		if( typeof this.events[event] === 'undefined' ){
 			this.events[event] = [];
+			this._addSubscription( event, fn, context, once );
 		}
-		this.events[event].push({
-			context : context,
-			callback : fn,
-			once : once || false
-		});
-		console.log( this.events );
+		else{
+			this._processSubscriptions( 'add', event, fn, context, once );
+		}
 		return this;
 	};
 	EventEm.prototype.once = function( event, fn, context, once ){
@@ -27,15 +22,15 @@
 
 		return this;
 	};
-	EventEm.prototype.off = function( event, fn, context ){
+	EventEm.prototype.off = function( event, fn ){
 		this._processSubscriptions( 'remove', event, fn );
 
 		return this;
 	};
-	EventEm.prototype.trigger = function(event){
-		var data = Array.prototype.slice.call( arguments , 1 );
+	EventEm.prototype.trigger = function( event, data ){
+		data = Array.prototype.slice.call( arguments , 1 );
 		if( this._isActualEvent( event ) ){
-			this._processSubscriptions( 'trigger', event, null, data );
+			this._processSubscriptions( 'trigger', event, null, null, null, data );
 		}
 		else{
 			this._log('Event "'+ event +'" was triggered but doesn\'t have any listeners');
@@ -55,31 +50,66 @@
 	};
 
 	// Private API
-	EventEm.prototype._processSubscriptions = function( action, event, fn, data ){
-		var subscription,
-			i = 0,
-			events = this.events[event],
-			l = events.length;
-		for(; i < l; i++ ){
-			subscription = events[i];
+	EventEm.prototype._processSubscriptions = function( action, event, fn, context, once, data ){
+		var i,
+			len,
+			subscription,
+			subscriptions = this.events[event];
 
-			if( action === 'remove' ){
+		len = subscriptions.length;
 
-				if( subscription.callback === fn ){
-					events.splice(i, 1);
-					if( !events.length ){
-						delete this.events[ event ];
+		for( i = 0; i < len; i++ ){
+			subscription = subscriptions[i];
+
+			switch( action ){
+				case 'add':
+					console.log('ADD', event, fn, context, once );
+					if( subscription.callback !== fn ){
+						this._addSubscription( event, fn, context, once );
 					}
 					break;
-				}
-			}
-			else{
-				subscription.callback.apply( subscription.context, data );
+
+				case 'remove':
+					console.log('REMOVE');
+					this._removeSubscription( subscriptions, i );
+					break;
+
+				case 'trigger':
+					console.log('TRIGGER');
+
+					this._triggerSubscription( subscription, data );
+
+					if( subscription.once ){
+						this._removeSubscription( subscriptions, i );
+					}
+					break;
+
 			}
 		}
+		console.log( this.events);
 		this.lastEvent = event;
 
 		return this;
+	};
+
+	EventEm.prototype._addSubscription = function( event, fn, context, once ){
+		fn = typeof fn === 'function' ? fn : context[fn];
+
+		this.events[event].push({
+			callback : fn,
+			context : context || this,
+			once : once || false
+		});
+	};
+	EventEm.prototype._removeSubscription = function( subscriptions, subscriptionIndex ){
+		subscriptions.splice( subscriptionIndex, 1 );
+
+		if( !subscriptions.length ){
+			delete this.events[ event ];
+		}
+	};
+	EventEm.prototype._triggerSubscription = function( subscription, data ){
+		subscription.callback.apply( subscription.context, data );
 	};
 	EventEm.prototype._isActualEvent = function( event ){
 		return typeof this.events[event] !== 'undefined';
@@ -91,6 +121,6 @@
 		catch( error ){}
 	};
 
-	global.EventEm = EventEm;
+	root.EventEm = EventEm;
 
-})(this, undefined);
+})( this, undefined );

@@ -53,6 +53,10 @@
 			find('#news-alert').addEventListener('click', function(){
 				eventEm.trigger('news-alert', getRandomNews);
 			});
+			// Subscribe from example
+			find('#subscribe-once').addEventListener('click', function(){
+				eventEm.once('news-alert', showNewsAlert);
+			});
 
 			// Trigger Show Data example
 			find('#show-data').addEventListener('click', function(){
@@ -81,9 +85,10 @@
 			function log(){
 				var elem = document.getElementById('log'),
 					reverse = true,
-					log = Array.prototype.slice.call( arguments, 0 ).join('{join}').replace(/{join}/g, '\n');
+					log = Array.prototype.slice.call( arguments, 0 ).join('{@}').replace(/{@}/g, '\n');
 				elem.innerHTML = (reverse)? log + '\n' +  elem.innerHTML : elem.innerHTML + '\n' + log;
 			}
+
 		})()
 	</script>
 </body>
