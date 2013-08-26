@@ -1,7 +1,7 @@
 # event-em
 
 
-A mediator library to assist in creating loosely-coupled apps. Influenced by work from [Romauld Quantain](http://www.soundstep.com), [Nicholas Zakas](http://www.nczonline.net), [Joe Zim](http://www.joezimjs.com) and [Addy Osmani](http://www.addyosmani.com).
+A custom events library to assist in creating loosely-coupled apps. 
 
 ## Benefits
 
