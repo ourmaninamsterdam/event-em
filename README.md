@@ -61,6 +61,13 @@ eventEm.on('my-event', fn [, context] );
 eventEm.on('app-ready', showPage , this );
 ```
 
+### Subscribe once to an event 
+
+``` 
+eventEm.once('my-event', fn [, context] );
+```
+Event subscription is removed after triggering once.
+
 ### Unsubscribe from an event
 
 ``` 
@@ -78,24 +85,37 @@ Supports multiple parameters.
 
 ``` 
 eventEm
-	.on('my-event', fn [, context] )	
+	.on('my-event', fn [, context] )
 	.trigger('my-event' [, data ])
 	.off('my-event', fn)
+```
+This could be simplified using the `once` method:
+``` 
+eventEm
+	.once('my-event', fn [, context] )
+	.trigger('my-event' [, data ])
+```
+
+Pseudo channels could be created as follows:
+``` 
+eventEm.on('mychannel:start', fn [, context] )
+
+eventEm.trigger('mychannel:start' [, data ])
 ```
 
 ## Browser support
 
 * Tested on 
-	* Windows: IE7-10, Chrome 27 and Firefox 17.
-	* Mac: Safari 6.0.3, Chrome 27, Chrome Canary and Firefox 17.
-	* iOS: Mobile Safari and Chrome 27.
-	* Android: Android Browser 4 and Chrome Android 27.
+* Windows: IE7-10, Chrome 27 and Firefox 17.
+* Mac: Safari 6.0.3, Chrome 27, Chrome Canary and Firefox 17.
+* iOS: Mobile Safari and Chrome 27.
+* Android: Android Browser 4 and Chrome Android 27.
 
 ## Future Developments
 
+* DONE Add getLastEvent method to show the last event triggered.
+* Add channels to allow easier event organisation
 * To include a unique event ID to allow easy un/subscribe when using anonymous functions.
-* Add getLastEvent method to show the last event triggered.
-* Add getCallStack method to show all events listeners.
 * Add timestamp for each event.
 
 
