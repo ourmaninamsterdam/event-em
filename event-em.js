@@ -63,32 +63,27 @@
 
 			switch( action ){
 				case 'add':
-					console.log('ADD', event, fn, context, once );
 					if( subscription.callback !== fn ){
 						this._addSubscription( event, fn, context, once );
 					}
 					break;
 
 				case 'remove':
-					console.log('REMOVE');
-					this._removeSubscription( subscriptions, i );
+					this._removeSubscription( event, subscriptions, i );
 					break;
 
 				case 'trigger':
-					console.log('TRIGGER');
-
 					this._triggerSubscription( subscription, data );
 
 					if( subscription.once ){
-						this._removeSubscription( subscriptions, i );
+						this._removeSubscription( event, subscriptions, i );
 					}
 					break;
 
 			}
 		}
-		console.log( this.events);
 		this.lastEvent = event;
-
+		
 		return this;
 	};
 
@@ -101,7 +96,7 @@
 			once : once || false
 		});
 	};
-	EventEm.prototype._removeSubscription = function( subscriptions, subscriptionIndex ){
+	EventEm.prototype._removeSubscription = function( event, subscriptions, subscriptionIndex ){
 		subscriptions.splice( subscriptionIndex, 1 );
 
 		if( !subscriptions.length ){

@@ -37,12 +37,11 @@
 				}
 			};
 
-			// Subscribe from example
+			// Subscribe to example
 			find('#subscribe').addEventListener('click', function(){
 				eventEm.on('news-alert', showNewsAlert);
 			});
 			eventEm.on('show-data', myObj.someMethod, myObj);
-			eventEm.once('show-data', myObj.someMethod, myObj );
 
 			// Unsubscribe from example
 			find('#unsubscribe').addEventListener('click', function(){
@@ -53,7 +52,7 @@
 			find('#news-alert').addEventListener('click', function(){
 				eventEm.trigger('news-alert', getRandomNews);
 			});
-			// Subscribe from example
+			// Subscribe once example
 			find('#subscribe-once').addEventListener('click', function(){
 				eventEm.once('news-alert', showNewsAlert);
 			});
